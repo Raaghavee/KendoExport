@@ -1,0 +1,130 @@
+<div>
+  <kendo-grid [kendoGridBinding]="roster" [height]="400">
+    <ng-template kendoGridToolbarTemplate>
+      <button type="button" kendoGridExcelCommand icon="file-excel">
+        Export to Excel
+      </button>
+    </ng-template>
+    <kendo-grid-column
+      [locked]="true"
+      [width]="200"
+      field="enterpriseId"
+      title="Project CMO"
+    >
+    </kendo-grid-column>
+    <ng-container *ngFor="let month of monthlyData; index as i">
+      <ng-container *ngIf="month.isweekend">
+        <kendo-grid-column-group
+          [title]="month.date"
+          [headerStyle]="{
+            'background-color': '#666',
+            color: '#fff',
+            'line-height': '1em'
+          }"
+          [style]="{ 'background-color': '#888', color: '#fff' }"
+        >
+          <kendo-grid-column
+            [field]="month.field"
+            title="Duration"
+            [width]="120"
+            [headerStyle]="{
+              'background-color': '#666',
+              color: '#fff',
+              'line-height': '1em'
+            }"
+            [style]="{ 'background-color': '#888', color: '#fff' }"
+          >
+          </kendo-grid-column>
+          <kendo-grid-column
+            [field]="month.col"
+            title="Start Time"
+            [width]="120"
+            [headerStyle]="{
+              'background-color': '#666',
+              color: '#fff',
+              'line-height': '1em'
+            }"
+            [style]="{ 'background-color': '#888', color: '#fff' }"
+          >
+          </kendo-grid-column>
+        </kendo-grid-column-group>
+      </ng-container>
+      <ng-container *ngIf="!month.isweekend">
+        <kendo-grid-column-group [title]="month.date">
+          <kendo-grid-column
+            [field]="month.field"
+            title="Duration"
+            [width]="120"
+          >
+          </kendo-grid-column>
+          <kendo-grid-column
+            [field]="month.col"
+            title="Start Time"
+            [width]="120"
+          >
+          </kendo-grid-column>
+        </kendo-grid-column-group>
+      </ng-container>
+    </ng-container>
+    <kendo-grid-excel fileName="Products.xlsx"></kendo-grid-excel>
+  </kendo-grid>
+
+  <button kendoButton type="button" (click)="excelexport.save()">
+    Export To Excel
+  </button>
+
+  <kendo-excelexport [data]="roster" fileName="Employees.xlsx" #excelexport>
+    <kendo-excelexport-column
+      [locked]="true"
+      field="enterpriseId"
+      title="Project CMO"
+    >
+    </kendo-excelexport-column>
+    <ng-container *ngFor="let month of monthlyData; index as i">
+      <ng-container *ngIf="month.isweekend">
+        <kendo-excelexport-column-group
+          [title]="month.date"
+          [headerCellOptions]="{
+            textAlign: 'center',
+            background: '#666',
+            color: '#fff'
+          }"
+        >
+          <kendo-excelexport-column
+            [headerCellOptions]="{
+              background: '#666',
+              color: '#fff'
+            }"
+            [cellOptions]="{ background: '#666', color: '#fff' }"
+            [field]="month.field"
+            title="Duration"
+          >
+          </kendo-excelexport-column>
+          <kendo-excelexport-column
+            [headerCellOptions]="{
+              background: '#666',
+              color: '#fff'
+            }"
+            [cellOptions]="options"
+            [field]="month.col"
+            title="Start Time"
+          >
+          </kendo-excelexport-column>
+        </kendo-excelexport-column-group>
+      </ng-container>
+      <ng-container *ngIf="!month.isweekend">
+        <kendo-excelexport-column-group
+          [title]="month.date"
+          [headerCellOptions]="{
+            textAlign: 'center'
+          }"
+        >
+          <kendo-excelexport-column [field]="month.field" title="Duration">
+          </kendo-excelexport-column>
+          <kendo-excelexport-column [field]="month.col" title="Start Time">
+          </kendo-excelexport-column>
+        </kendo-excelexport-column-group>
+      </ng-container>
+    </ng-container>
+  </kendo-excelexport>
+</div>
